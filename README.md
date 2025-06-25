@@ -18,7 +18,7 @@ Este proyecto es un data warehouse open source diseñado para el análisis de da
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tvella/datawarehouse-rrhh
+git clone https://github.com/tomasvella/datawarehouse-rrhh
 cd datawarehouse-rrhh
 ```
 
