@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: dwh_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: dwh
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - dwh_net
+
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    volumes:
+      - metabase_data:/metabase-data
+    networks:
+      - dwh_net
+    depends_on:
+      - postgres
+
+  airflow:
+    build:
+      context: ./airflow
+    container_name: airflow
+    restart: always
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/dwh
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./data/raw:/opt/airflow/dags/data
+    ports:
+      - "8080:8080"
+    command: bash -c "airflow db init && airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin && airflow webserver"
+    networks:
+      - dwh_net
+    depends_on:
+      - postgres
+
+networks:
+  dwh_net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  metabase_data:
