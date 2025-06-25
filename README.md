@@ -18,8 +18,8 @@ Este proyecto es un data warehouse open source diseñado para el análisis de da
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu_usuario/data-warehouse-rrhh.git
-cd data-warehouse-rrhh
+git clone https://github.com/tvella/datawarehouse-rrhh
+cd datawarehouse-rrhh
 ```
 
 ### 2. Descargar el dataset
@@ -37,7 +37,7 @@ data/raw/HR-Employee-Attrition.csv
 ### 3. Levantar los servicios
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 Esto iniciará:
@@ -62,16 +62,17 @@ Esto iniciará:
 ```
 data-warehouse-rrhh/
 ├── airflow/
-│   ├── dags/                         # DAGs de Airflow
-│   └── Dockerfile                   # Imagen personalizada de Airflow
+│   ├── dags/                            # DAGs de Airflow
+│   │    └── data/                       # Carpeta creada por el contenedor para persistir
+│   └── Dockerfile                       # Imagen personalizada de Airflow
 ├── db/
 │   └── init/
-│       └── modelado_dimensional.sql # Script SQL para crear el modelo estrella
+│       └── modelado_dimensional.sql     # Script SQL para crear el modelo estrella
 ├── data/
 │   └── raw/
-│       └── HR-Employee-Attrition.csv # Dataset descargado
+│       └── HR-Employee-Attrition.csv    # Dataset descargado
 ├── metabase/
-│   └── metabase-data/              # Volumen persistente de Metabase
+│   └── metabase-data/                   # Volumen persistente de Metabase
 ├── docker-compose.yml
 └── README.md
 ```
