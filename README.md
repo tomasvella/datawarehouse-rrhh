@@ -54,6 +54,16 @@ Esto iniciará:
 
 ---
 
+## 📂 Acceso a la base de datos
+
+```
+psql -h localhost -U airflow -d dwh
+```
+
+Contraseña: airflow
+
+---
+
 ## 🗂️ Estructura del proyecto
 
 ```
@@ -76,11 +86,41 @@ data-warehouse-rrhh/
 
 ## 🧠 Métricas sugeridas
 
-- Tasa de rotación de empleados
-- Distribución de empleados por género y edad
-- Satisfacción laboral por departamento
-- Relación entre nivel educativo y desempeño
-- Análisis de performance por área y rol
+### 📉 Métricas de Rotación (Attrition)
+
+- Tasa de rotación general y por departamento
+- Análisis de rotación por género y nivel educativo
+- Relación entre rotación y satisfacción laboral
+
+### 😊 Métricas de Satisfacción
+
+- Niveles de satisfacción laboral por departamento
+- Satisfacción con el ambiente laboral
+- Correlación entre satisfacción y desempeño
+
+### 💰 Métricas de Compensación
+
+- Salarios promedios por departamento y nivel
+- Distribución de stock options
+- Relación entre compensación y desempeño
+
+### 📊 Métricas de Desempeño
+
+- Calificaciones promedio por departamento
+- Desempeño vs. Años en la empresa
+- Relación entre desempeño y satisfacción
+
+### 🕒 Métricas de Antigüedad
+
+- Tiempo promedio en la empresa
+- Tiempo en el puesto actual
+- Rotación por antigüedad
+
+### 🏢 Métricas de Estructura
+
+- Distribución de empleados por departamento y género
+- Pirámide organizacional por niveles
+- Niveles educativos por departamento
 
 ---
 
