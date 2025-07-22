@@ -13,33 +13,18 @@ jobs:
       - name: Instalar cliente PostgreSQL
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-      - name: Ejecutar solo SQLs modificados en carpeta db
+      - name: Ejecutar todos los scripts SQL en carpeta db
         env:
           PGPASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
-          echo "Buscando archivos SQL modificados en carpeta ./db..."
+          echo "Ejecutando todos los archivos SQL en ./db..."
 
-          # Traemos mínimo 2 commits para comparar
-          git fetch origin main --depth=2 || true
-
-          # Obtenemos archivos modificados entre HEAD y el commit anterior
-          MODIFIED_FILES=$(git diff --name-only HEAD^ HEAD | grep '^db/.*\.sql$' || true)
-
-          if [ -z "$MODIFIED_FILES" ]; then
-            echo "No se encontraron archivos SQL modificados en ./db"
-            exit 0
-          fi
-
-          echo "$MODIFIED_FILES" | while read -r file; do
-            if [ -f "$file" ]; then
-              echo "Ejecutando: $file"
-              psql \
-                -h ${{ secrets.DB_HOST }} \
-                -U ${{ secrets.DB_USER }} \
-                -d ${{ secrets.DB_NAME }} \
-                -p ${{ secrets.DB_PORT }} \
-                -f "$file"
-            else
-              echo "Archivo no encontrado (quizás fue eliminado): $file"
-            fi
+          find ./db -type f -name "*.sql" | sort | while read -r file; do
+            echo "Ejecutando: $file"
+            psql \
+              -h ${{ secrets.DB_HOST }} \
+              -U ${{ secrets.DB_USER }} \
+              -d ${{ secrets.DB_NAME }} \
+              -p ${{ secrets.DB_PORT }} \
+              -f "$file"
           done
