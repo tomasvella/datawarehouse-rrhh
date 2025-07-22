@@ -17,18 +17,6 @@ services:
     networks:
       - dwh_net
 
-  metabase:
-    image: metabase/metabase
-    container_name: metabase
-    ports:
-      - "3000:3000"
-    volumes:
-      - metabase_data:/metabase-data
-    networks:
-      - dwh_net
-    depends_on:
-      - postgres
-
   airflow-webserver:
     build:
       context: ./airflow

@@ -1,6 +1,6 @@
 # 📊 Data Warehouse RRHH - Proyecto Personal
 
-Este proyecto es un data warehouse open source diseñado para el análisis de datos de Recursos Humanos. Simula un entorno de analítica empresarial usando herramientas modernas de ingeniería de datos, con ETL automatizado, modelo dimensional y visualización interactiva.
+Este proyecto es un data warehouse open source diseñado para el análisis de datos de Recursos Humanos. Simula un entorno de analítica empresarial usando herramientas modernas de ingeniería de datos, con ETL automatizado y modelo dimensional.
 
 ---
 
@@ -8,7 +8,6 @@ Este proyecto es un data warehouse open source diseñado para el análisis de da
 
 - **PostgreSQL** – Almacenamiento del data warehouse (modelo estrella)
 - **Apache Airflow** – Orquestación de procesos ETL
-- **Metabase** – Plataforma de visualización de datos (BI)
 - **Docker + Docker Compose** – Contenedores para facilitar la instalación
 
 ---
@@ -44,16 +43,14 @@ Esto iniciará:
 
 - PostgreSQL (con esquema inicial)
 - Apache Airflow
-- Metabase
 
 ---
 
 ## 🌐 Accesos a las interfaces
 
-| Servicio | URL                   | Usuario                    | Contraseña |
-| -------- | --------------------- | -------------------------- | ---------- |
-| Airflow  | http://localhost:8080 | admin                      | admin      |
-| Metabase | http://localhost:3000 | Crear en el primer ingreso |
+| Servicio | URL                   | Usuario | Contraseña |
+| -------- | --------------------- | ------- | ---------- |
+| Airflow  | http://localhost:8080 | admin   | admin      |
 
 ---
 
@@ -71,8 +68,6 @@ data-warehouse-rrhh/
 ├── data/
 │   └── raw/
 │       └── HR-Employee-Attrition.csv    # Dataset descargado
-├── metabase/
-│   └── metabase-data/                   # Volumen persistente de Metabase
 ├── docker-compose.yml
 └── README.md
 ```
