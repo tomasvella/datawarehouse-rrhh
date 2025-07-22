@@ -1,0 +1,38 @@
+name: Ejecutar SQL desde carpeta db
+
+on: [push]
+
+jobs:
+  run-sql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar el repo
+        uses: actions/checkout@v3
+
+      - name: Instalar cliente PostgreSQL
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Ejecutar solo SQLs modificados en carpeta db
+        env:
+          PGPASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          echo "Buscando archivos SQL modificados en carpeta ./db..."
+          git fetch origin main --depth=2
+
+          MODIFIED_FILES=$(git diff --name-only HEAD^ HEAD | grep '^db/.*\.sql$' || true)
+
+          if [ -z "$MODIFIED_FILES" ]; then
+            echo "No se encontraron archivos SQL modificados en ./db"
+            exit 0
+          fi
+
+          echo "$MODIFIED_FILES" | while read file; do
+            echo "Ejecutando: $file"
+            psql \
+              -h ${{ secrets.DB_HOST }} \
+              -U ${{ secrets.DB_USER }} \
+              -d ${{ secrets.DB_NAME }} \
+              -p ${{ secrets.DB_PORT }} \
+              -f "$file"
+          done
